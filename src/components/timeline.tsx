@@ -1,8 +1,15 @@
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  limit,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { db } from "../firebase";
 import Tweet from "./tweet";
+import { Unsubscribe } from "firebase/auth";
 
 export interface ITweet {
   id: string; // 문서 ID
@@ -13,31 +20,55 @@ export interface ITweet {
   createdAt: number; // 생성 시간 (타임스탬프)
 }
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  overflow-y: scroll;
+`;
 
 export default function Timeline() {
   const [tweets, setTweets] = useState<ITweet[]>([]);
-  const fetchTweets = async () => {
-    const tweetsQuery = query(
-      collection(db, "tweets"),
-      orderBy("createdAt", "desc")
-    );
-    const snapshot = await getDocs(tweetsQuery);
-    const tweets = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, fileData } = doc.data();
-      return {
-        tweet,
-        createdAt,
-        userId,
-        username,
-        fileData,
-        id: doc.id, // 문서 ID 추가
-      };
-    });
-    setTweets(tweets);
-  };
+
   useEffect(() => {
+    let unsubscribe: Unsubscribe | null = null;
+    const fetchTweets = async () => {
+      const tweetsQuery = query(
+        collection(db, "tweets"),
+        orderBy("createdAt", "desc"),
+        limit(25) // 최근 25개 트윗만 가져오기
+      );
+      // const snapshot = await getDocs(tweetsQuery);
+      // const tweets = snapshot.docs.map((doc) => {
+      //   const { tweet, createdAt, userId, username, fileData } = doc.data();
+      //   return {
+      //     tweet,
+      //     createdAt,
+      //     userId,
+      //     username,
+      //     fileData,
+      //     id: doc.id, // 문서 ID 추가
+      //   };
+      // });
+      unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
+        const tweets = snapshot.docs.map((doc) => {
+          const { tweet, createdAt, userId, username, fileData } = doc.data();
+          return {
+            tweet,
+            createdAt,
+            userId,
+            username,
+            fileData,
+            id: doc.id, // 문서 ID 추가
+          };
+        });
+        setTweets(tweets);
+      });
+    };
     fetchTweets();
+    return () => {
+      unsubscribe && unsubscribe();
+    };
   }, []);
   return (
     <Wrapper>

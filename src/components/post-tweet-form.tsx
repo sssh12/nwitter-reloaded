@@ -53,6 +53,7 @@ const SubmitBtn = styled.input`
   border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
+  transition: 0.5s;
   &:hover,
   &:active {
     opacity: 0.9;
