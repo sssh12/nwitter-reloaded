@@ -116,7 +116,7 @@ export default function EditTweetForm({ tweet, userId, id, setEdit }: Props) {
         value={editTweet}
         autoFocus
       />
-      <EditBtn type="submit" value={isLoading ? "Posting..." : "Edit Tweet"} />
+      <EditBtn type="submit" value={isLoading ? "Editing..." : "Edit Tweet"} />
       <CancelBtn onClick={onCancel} type="button" value="Cancel" />
     </Form>
   );
