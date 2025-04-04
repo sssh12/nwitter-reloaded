@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { ITweet } from "./timeline";
 import { auth, db } from "../firebase";
 import { deleteDoc, doc } from "firebase/firestore";
+import { useState } from "react";
+import EditTweetForm from "./edit-tweet-form";
 
 const Wrapper = styled.div`
   display: grid;
@@ -67,6 +69,7 @@ export default function Tweet({
   id,
 }: ITweet) {
   const user = auth.currentUser;
+  const [isEdit, setEdit] = useState(false);
   const onDelete = async () => {
     const ok = confirm("Are you sure you want to delete this tweet?");
     if (!ok || user?.uid !== userId) return;
@@ -78,20 +81,30 @@ export default function Tweet({
     }
   };
 
-  const onEdit = async () => {
-    const ok = confirm("Are you sure you want to edit this tweet?");
-    if (!ok || user?.uid !== userId) return;
+  const onEdit = () => {
+    if (user?.uid !== userId) return;
+    setEdit((prev) => !prev);
   };
+
   return (
     <Wrapper>
       <Column>
         <Username>{username}</Username>
-        <Payload>{tweet}</Payload>
-        {user?.uid === userId ? (
-          <EditButton onClick={onEdit}>Edit</EditButton>
-        ) : null}
-        {user?.uid === userId ? (
-          <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+        {!isEdit ? (
+          <Payload>{tweet}</Payload>
+        ) : (
+          <EditTweetForm
+            tweet={tweet}
+            userId={userId}
+            id={id}
+            setEdit={setEdit}
+          />
+        )}
+        {user?.uid === userId && !isEdit ? (
+          <>
+            <EditButton onClick={onEdit}>Edit</EditButton>
+            <DeleteButton onClick={onDelete}>Delete</DeleteButton>
+          </>
         ) : null}
       </Column>
       <Column>{fileData ? <Photo src={fileData} /> : null}</Column>
