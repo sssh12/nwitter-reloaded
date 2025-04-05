@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { ITweet } from "../components/timeline";
 import Tweet from "../components/tweet";
+import { updateProfile } from "firebase/auth";
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,10 +56,30 @@ const Tweets = styled.div`
   margin-bottom: 10px;
 `;
 
+const NameInput = styled.input`
+  background-color: black;
+  font-size: 22px;
+  text-align: center;
+  color: white;
+  border: 1px solid white;
+  border-radius: 15px;
+`;
+const ChangeNameBtn = styled.button`
+  background-color: #3b3a3a;
+  color: white;
+  padding: 10px 5px;
+  font-size: 15px;
+  border-radius: 10px;
+  border: 0.1px solid white;
+  min-width: 110px;
+`;
+
 export default function Profile() {
   const user = auth.currentUser;
   const [avatar, setAvatar] = useState<string | null>(null);
   const [tweets, setTweets] = useState<ITweet[]>([]);
+  const [name, setName] = useState(user?.displayName ?? "Anonymous");
+  const [isEdit, setEdit] = useState(false);
   // Firestore에서 사용자 정보 가져오기
   const fetchUserAvatar = async () => {
     if (!user) return;
@@ -134,6 +155,24 @@ export default function Profile() {
     fetchTweets();
   }, []);
 
+  const onChangeNameClick = async () => {
+    if (!user) return;
+    setEdit((prev) => !prev);
+    if (!isEdit) return;
+    try {
+      await updateProfile(user, {
+        displayName: name,
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setEdit(false);
+    }
+  };
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setName(event.target.value);
+
   return (
     <Wrapper>
       <AvatarUpload htmlFor="avatar">
@@ -152,11 +191,18 @@ export default function Profile() {
       </AvatarUpload>
       <AvatarInput
         onChange={onAvatarChange}
-        id="avatar"
-        type="file"
+        id="file"
         accept="image/*"
+        type="file"
       />
-      <Name>{user?.displayName ?? "Anonymous"}</Name>
+      {isEdit ? (
+        <NameInput onChange={onNameChange} type="text" value={name} />
+      ) : (
+        <Name>{name ?? "Anonymous"}</Name>
+      )}
+      <ChangeNameBtn onClick={onChangeNameClick}>
+        {isEdit ? "Save" : "Change Name"}
+      </ChangeNameBtn>
       <Tweets>
         {tweets.map((tweets) => (
           <Tweet key={tweets.id} {...tweets} />
