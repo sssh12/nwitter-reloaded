@@ -11,6 +11,7 @@ import {
   query,
   updateDoc,
   where,
+  onSnapshot, // 추가
 } from "firebase/firestore";
 import { ITweet } from "../components/timeline";
 import Tweet from "../components/tweet";
@@ -130,30 +131,43 @@ export default function Profile() {
       });
     }
   };
-  const fetchTweets = async () => {
+
+  const fetchTweets = () => {
+    if (!user) return;
+
     const tweetsQuery = query(
       collection(db, "tweets"),
-      where("userId", "==", user?.uid),
+      where("userId", "==", user.uid),
       orderBy("createdAt", "desc"),
       limit(25)
     );
-    const snapshot = await getDocs(tweetsQuery);
-    const tweets = snapshot.docs.map((doc) => {
-      const { tweet, createdAt, userId, username, fileData } = doc.data();
-      return {
-        tweet,
-        createdAt,
-        userId,
-        username,
-        fileData,
-        id: doc.id, // 문서 ID 추가
-      };
+
+    // 실시간 업데이트 구독
+    const unsubscribe = onSnapshot(tweetsQuery, (snapshot) => {
+      const tweets = snapshot.docs.map((doc) => {
+        const { tweet, createdAt, userId, username, fileData } = doc.data();
+        return {
+          tweet,
+          createdAt,
+          userId,
+          username,
+          fileData,
+          id: doc.id, // 문서 ID 추가
+        };
+      });
+      setTweets(tweets);
     });
-    setTweets(tweets);
+
+    // 컴포넌트가 언마운트될 때 구독 해제
+    return unsubscribe;
   };
+
   useEffect(() => {
-    fetchTweets();
-  }, []);
+    const unsubscribe = fetchTweets();
+    return () => {
+      unsubscribe && unsubscribe(); // 컴포넌트 언마운트 시 구독 해제
+    };
+  }, [user]);
 
   const onChangeNameClick = async () => {
     if (!user) return;
