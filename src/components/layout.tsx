@@ -29,6 +29,14 @@ const MenuItem = styled.div`
   height: 50px;
   width: 50px;
   border-radius: 50%;
+  &:hover {
+    background-color: #1d9bf0;
+    transition: 0.5s;
+  }
+  &:active {
+    width: 55px;
+    transition: 0.2s;
+  }
   svg {
     width: 30px;
     fill: white;
@@ -39,6 +47,9 @@ const MenuItem = styled.div`
       fill: tomato;
     }
   }
+  &.log-out:hover {
+    background-color: white;
+    transition: 0.5s;
 `;
 
 export default function Layout() {
