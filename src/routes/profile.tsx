@@ -63,16 +63,25 @@ const NameInput = styled.input`
   text-align: center;
   color: white;
   border: 1px solid white;
-  border-radius: 15px;
 `;
+
 const ChangeNameBtn = styled.button`
-  background-color: #3b3a3a;
+  background-color: #1d9bf0;
+  width: 30%;
   color: white;
-  padding: 10px 5px;
-  font-size: 15px;
-  border-radius: 10px;
-  border: 0.1px solid white;
-  min-width: 110px;
+  border: none;
+  padding: 10px 0px;
+  border-radius: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    box-shadow: inset -0.3rem -0.1rem 1.4rem #fbfbfb,
+      inset 0.3rem 0.4rem 0.8rem #bec5d0;
+  }
 `;
 
 export default function Profile() {
@@ -205,7 +214,7 @@ export default function Profile() {
       </AvatarUpload>
       <AvatarInput
         onChange={onAvatarChange}
-        id="file"
+        id="avatar"
         accept="image/*"
         type="file"
       />

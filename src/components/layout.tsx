@@ -31,11 +31,10 @@ const MenuItem = styled.div`
   border-radius: 50%;
   &:hover {
     background-color: #1d9bf0;
-    transition: 0.5s;
+    transition: 0.3s;
   }
   &:active {
-    width: 55px;
-    transition: 0.2s;
+    box-shadow: inset -.3rem -.1rem 1.4rem  #FBFBFB, inset .3rem .4rem .8rem #BEC5D0; 
   }
   svg {
     width: 30px;

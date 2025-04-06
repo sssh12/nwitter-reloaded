@@ -38,18 +38,7 @@ export default function Timeline() {
         orderBy("createdAt", "desc"),
         limit(25) // 최근 25개 트윗만 가져오기
       );
-      // const snapshot = await getDocs(tweetsQuery);
-      // const tweets = snapshot.docs.map((doc) => {
-      //   const { tweet, createdAt, userId, username, fileData } = doc.data();
-      //   return {
-      //     tweet,
-      //     createdAt,
-      //     userId,
-      //     username,
-      //     fileData,
-      //     id: doc.id, // 문서 ID 추가
-      //   };
-      // });
+      // 실시간 업데이트 구독
       unsubscribe = await onSnapshot(tweetsQuery, (snapshot) => {
         const tweets = snapshot.docs.map((doc) => {
           const { tweet, createdAt, userId, username, fileData } = doc.data();

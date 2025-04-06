@@ -40,6 +40,14 @@ const AttachFileButton = styled.label`
   font-size: 14px;
   font-weight: 600;
   cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    box-shadow: inset -0.3rem -0.1rem 1.4rem #fbfbfb,
+      inset 0.3rem 0.4rem 0.8rem #bec5d0;
+  }
 `;
 
 const AttachFileInput = styled.input`
@@ -54,10 +62,14 @@ const SubmitBtn = styled.input`
   border-radius: 20px;
   font-size: 16px;
   cursor: pointer;
-  transition: 0.5s;
-  &:hover,
+  transition: 0.3s;
+  &:hover {
+    opacity: 0.8;
+    cursor: pointer;
+  }
   &:active {
-    opacity: 0.9;
+    box-shadow: inset -0.3rem -0.1rem 1.4rem #fbfbfb,
+      inset 0.3rem 0.4rem 0.8rem #bec5d0;
   }
 `;
 
