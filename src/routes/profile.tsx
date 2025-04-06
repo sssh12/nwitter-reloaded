@@ -22,6 +22,7 @@ const Wrapper = styled.div`
   align-items: center;
   flex-direction: column;
   gap: 20px;
+  margin-right: 10px;
 `;
 const AvatarUpload = styled.label`
   width: 80px;
