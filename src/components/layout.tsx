@@ -33,8 +33,9 @@ const MenuItem = styled.div`
     background-color: #1d9bf0;
     transition: 0.3s;
   }
-  &:active {
-    box-shadow: inset -.3rem -.1rem 1.4rem  #FBFBFB, inset .3rem .4rem .8rem #BEC5D0; 
+   &:active {
+    box-shadow: inset -0.3rem -0.1rem 1.4rem gray,
+      inset 0.3rem 0.4rem 0.8rem #bec5d0;
   }
   svg {
     width: 30px;

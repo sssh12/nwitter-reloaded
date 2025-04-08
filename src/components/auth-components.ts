@@ -32,9 +32,13 @@ export const Input = styled.input`
     background-color: #1d9bf0;
     color: white;
     cursor: pointer;
+    transition: 0.3s;
     &:hover {
-      transition: 0.3s;
       opacity: 0.8;
+    }
+    &:active {
+      box-shadow: inset -0.3rem -0.1rem 1.4rem gray,
+        inset 0.3rem 0.4rem 0.8rem #bec5d0;
     }
   }
 `;

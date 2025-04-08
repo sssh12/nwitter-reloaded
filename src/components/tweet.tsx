@@ -46,6 +46,14 @@ const DeleteButton = styled.button`
   text-transform: uppercase;
   border-radius: 5px;
   cursor: pointer;
+  transition: 0.3s;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    box-shadow: inset -0.3rem -0.1rem 1.4rem gray,
+      inset 0.3rem 0.4rem 0.8rem #bec5d0;
+  }
 `;
 
 const EditButton = styled.button`
@@ -59,6 +67,14 @@ const EditButton = styled.button`
   border-radius: 5px;
   cursor: pointer;
   margin-right: 10px;
+  transition: 0.3s;
+  &:hover {
+    opacity: 0.8;
+  }
+  &:active {
+    box-shadow: inset -0.3rem -0.1rem 1.4rem gray,
+      inset 0.3rem 0.4rem 0.8rem #bec5d0;
+  }
 `;
 
 export default function Tweet({

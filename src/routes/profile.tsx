@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { auth, db } from "../firebase";
 import React, { useEffect, useState } from "react";
-import { handleFileChange } from "../util/util";
+import { handleFileChange } from "../utils/util";
 import {
   addDoc,
   collection,

@@ -2,7 +2,7 @@ import { addDoc, collection } from "firebase/firestore";
 import { useState } from "react";
 import styled from "styled-components";
 import { auth, db } from "../firebase";
-import { handleFileChange } from "../util/util";
+import { handleFileChange } from "../utils/util";
 
 const Form = styled.form`
   display: flex;
@@ -45,7 +45,7 @@ const AttachFileButton = styled.label`
     opacity: 0.8;
   }
   &:active {
-    box-shadow: inset -0.3rem -0.1rem 1.4rem #fbfbfb,
+    box-shadow: inset -0.3rem -0.1rem 1.4rem gray,
       inset 0.3rem 0.4rem 0.8rem #bec5d0;
   }
 `;
@@ -68,7 +68,7 @@ const SubmitBtn = styled.input`
     cursor: pointer;
   }
   &:active {
-    box-shadow: inset -0.3rem -0.1rem 1.4rem #fbfbfb,
+    box-shadow: inset -0.3rem -0.1rem 1.4rem gray,
       inset 0.3rem 0.4rem 0.8rem #bec5d0;
   }
 `;
